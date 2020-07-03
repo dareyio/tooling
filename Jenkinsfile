@@ -4,9 +4,9 @@ pipeline {
       environment 
     {
         VERSION = 'latest'
-        PROJECT = 'tooling'
-        IMAGE   = 'tooling:latest'
-        ECRURL  = 'http://489122420391.dkr.ecr.eu-west-2.amazonaws.com'
+        PROJECT = 'propitix-tooling-site'
+        IMAGE   = 'propitix-tooling-site:latest'
+        ECRURL  = 'http://897686176802.dkr.ecr.eu-west-2.amazonaws.com'
         ECRCRED = 'ecr:eu-west-2:tooling'
 
     }
