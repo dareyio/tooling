@@ -20,7 +20,7 @@
 		</div>
 		<div class="input-group">
 			<label></label>
-			<input type="password" name="password" pattern=".{8,16}" placeholder=" Password " >
+			<input type="password" name="password"  placeholder=" Password " >
 		</div>
 		<div class="input-group">
 			<button type="submit" class="btn" name="login_btn">Login</button>
