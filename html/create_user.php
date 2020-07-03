@@ -1,9 +1,9 @@
 <?php include('functions.php');
 
-/*if (!isAdmin()) {
+if (!isAdmin()) {
 	$_SESSION['msg'] = "You must log in first";
 	header('location: login.php');
-}*/
+}
 
 ?>
 <!DOCTYPE html>
@@ -50,11 +50,11 @@
 		<br>
 		<div class="input-group">
 			<label></label> 
-			<input type="password" name="password_1" pattern=".{8,16}"  placeholder=" Password" >
+			<input type="password" name="password_1"  placeholder=" Password" >
 		</div>
 		<div class="input-group">
 			<label></label>
-			<input type="password" name="password_2" pattern=".{8,16}" placeholder=" Confirm Password" >
+			<input type="password" name="password_2"  placeholder=" Confirm Password" >
 		</div>
 		<div class="input-group">
 			<button type="submit" class="btn" name="register_btn"> + Create user</button>
