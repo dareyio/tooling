@@ -67,7 +67,7 @@ pipeline {
         }
 
     stage('Build For Dev Environment') {
-               when { branch pattern: "feature/\\d+", comparator: "REGEXP"}
+               when { branch pattern: "feature/jenkins-feature-branch-support+bugfix", comparator: "REGEXP"}
             
         steps {
             echo 'Build Dockerfile....'
