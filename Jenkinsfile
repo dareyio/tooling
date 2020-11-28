@@ -68,7 +68,7 @@ pipeline {
 
     stage('Build For Dev Environment') {
                when {
-                expression { BRANCH_NAME ==~ /(dev)/ }
+                expression { BRANCH_NAME ==~ /(dev|feature|bug)/ }
             }
         steps {
             echo 'Build Dockerfile....'
