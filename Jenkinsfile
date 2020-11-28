@@ -67,7 +67,7 @@ pipeline {
         }
 
     stage('Build For Dev Environment') {
-               when { branch pattern: "release\/*+feature\/+bugfix\/", comparator: "REGEXP"}
+               when { branch pattern: "\bfeature[^\s]+", comparator: "REGEXP"}
             }
         steps {
             echo 'Build Dockerfile....'
