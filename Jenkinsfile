@@ -40,7 +40,7 @@ pipeline {
                         $class: 'SubmoduleOption', 
                         disableSubmodules: false,
                         parentCredentials: false, 
-                        recursiveSubmodules: true, 
+                        recursiveSubmodules: false, 
                         reference: '', 
                         trackingSubmodules: true
                     ]
