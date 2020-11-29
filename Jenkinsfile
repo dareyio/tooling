@@ -23,12 +23,12 @@ pipeline {
       steps {
             echo 'Prepare Working directory'
             script {
-                sh("pwd && mkdir tmp && cd tmp") 
+                sh("pwd && mkdir tmp") 
             }
       checkout([
         $class: 'GitSCM', 
         doGenerateSubmoduleConfigurations: false, 
-        extensions: [],
+        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'tmp'],
         submoduleCfg: [], 
         // branches: [[name: '$branch']],
         userRemoteConfigs: [[url: "https://github.com/darey-devops/tooling.git ",credentialsId:'GITHUB_CREDENTIALS']] 	
@@ -49,12 +49,12 @@ pipeline {
         steps {
                 echo 'Move out of working directory'
             script {
-                sh("cd ..") 
+                sh("pwd $$ mkdir helm") 
             }
         checkout([
             $class: 'GitSCM', 
             doGenerateSubmoduleConfigurations: false, 
-            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'charts', $class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]],
+            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'helm', $class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]],
             // extensions: [[$class: 'RelativeTargetDirectory', 
             //     relativeTargetDir: 'helm']],
             submoduleCfg: [[url: "https://github.com/darey-devops/helm-tooling-frontend.git",credentialsId:'GITHUB_CREDENTIALS']], 
