@@ -21,6 +21,10 @@ pipeline {
     stage('Checkout Application Code')
     {
       steps {
+            echo 'Prepare Working directory'
+            script {
+                sh("pwd && mkdir tmp && cd tmp") 
+            }
       checkout([
         $class: 'GitSCM', 
         doGenerateSubmoduleConfigurations: false, 
@@ -43,9 +47,9 @@ pipeline {
         stage('Checkout Helm chart')
         {
         steps {
-            echo 'Checking out Helm Chart For Release'
+                echo 'Move out of working directory'
             script {
-                sh("pwd && mkdir tmp && cd tmp") 
+                sh("cd ..") 
             }
         checkout([
             $class: 'GitSCM', 
