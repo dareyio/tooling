@@ -44,9 +44,9 @@ pipeline {
                     [
                         $class: 'RelativeTargetDirectory', 
                         relativeTargetDir: 'FluxHelmRelease',
-            //             $class: 'SubmoduleOption', 
+                        $class: 'SubmoduleOption', 
             //             disableSubmodules: false,
-            //             parentCredentials: false, 
+                        parentCredentials: false 
             //             recursiveSubmodules: true, 
             //             reference: '', 
             //             trackingSubmodules: true
@@ -79,11 +79,11 @@ pipeline {
     // }
  
     }
-        post
-    {
-        always
-        {
-            sh "docker rmi -f $IMAGE "
-        }
-    }
+    //     post
+    // {
+    //     always
+    //     {
+    //         sh "docker rmi -f $IMAGE "
+    //     }
+    // }
 } 
