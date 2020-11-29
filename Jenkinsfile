@@ -104,7 +104,6 @@ pipeline {
         }
     }
 
-
     stage('Build For Production Environment') {
         when { tag "release-*" }
         steps {
@@ -119,6 +118,17 @@ pipeline {
             }
         }
     }
+
+      stage('Update Helm appVersion') {
+        steps {
+                 
+            echo 'Update appVersion'
+            sh '''
+                  cat FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml | sed "s/appVersion: .*/appVersion: \"${BUILD_NUMBER}\"/g" > FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml
+
+              '''
+        }
+      }
 
 
 
