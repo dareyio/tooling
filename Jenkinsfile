@@ -28,19 +28,36 @@ pipeline {
     stage('Checkout Flux Deployment Repo For Release')
     {
       steps {
-      checkout([
-        $class: 'GitSCM', 
-        doGenerateSubmoduleConfigurations: false, 
-        extensions: 
+      checkout(
+          [
+            $class: 'GitSCM', 
+            doGenerateSubmoduleConfigurations: false, 
+            extensions: 
+                [
+                    [
+                        $class: 'RelativeTargetDirectory', 
+                        relativeTargetDir: 'release'
+                    ]
+                ],
+        submoduleCfg: 
             [
                 [
-                $class: 'RelativeTargetDirectory', 
-                relativeTargetDir: 'release'
+                    url: "https://github.com/darey-devops/helm-tooling-frontend.git",
+                    credentialsId:'GITHUB_CREDENTIALS'
+                ]
+             ], 
+        branches: 
+            [
+                [
+                    name: 'master'
                 ]
             ],
-        submoduleCfg: [[url: "https://github.com/darey-devops/helm-tooling-frontend.git",credentialsId:'GITHUB_CREDENTIALS']], 
-        branches: [[name: 'master']],
-        userRemoteConfigs: [[url: "https://gitlab.com/zooto.io/fluxcd-deployments.git",credentialsId:'GIT_CREDENTIALS']]
+        userRemoteConfigs: 
+            [
+                [
+                    url: "https://gitlab.com/zooto.io/fluxcd-deployments.git",credentialsId:'GIT_CREDENTIALS'
+                ]
+            ]
         ])
         
       }
