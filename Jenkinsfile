@@ -31,20 +31,20 @@ pipeline {
       checkout(
           [
             $class: 'GitSCM', 
-            doGenerateSubmoduleConfigurations: true, 
-            extensions: 
-                [
-                    [
-                        $class: 'RelativeTargetDirectory', 
-                        relativeTargetDir: 'release',
-                        $class: 'SubmoduleOption', 
-                        disableSubmodules: false,
-                        parentCredentials: false, 
-                        recursiveSubmodules: true, 
-                        reference: '', 
-                        trackingSubmodules: true
-                    ]
-                ],
+            doGenerateSubmoduleConfigurations: false, 
+            // extensions: 
+            //     [
+            //         [
+            //             $class: 'RelativeTargetDirectory', 
+            //             relativeTargetDir: 'release',
+            //             $class: 'SubmoduleOption', 
+            //             disableSubmodules: false,
+            //             parentCredentials: false, 
+            //             recursiveSubmodules: true, 
+            //             reference: '', 
+            //             trackingSubmodules: true
+            //         ]
+            //     ],
         submoduleCfg: 
             [
                 [
