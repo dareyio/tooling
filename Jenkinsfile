@@ -34,14 +34,17 @@ pipeline {
         extensions: [
             [$class: 'RelativeTargetDirectory', 
             relativeTargetDir: 'fluxcd-deployments'],
-            $class: 'SubmoduleOption', 
+            [$class: 'SubmoduleOption', 
             disableSubmodules: false, 
             parentCredentials: false, 
             recursiveSubmodules: true, 
             reference: '', 
-            trackingSubmodules: true
-                    ],
-        submoduleCfg: [[url: "https://github.com/darey-devops/helm-tooling-frontend.git",credentialsId:'GITHUB_CREDENTIALS']], 
+            trackingSubmodules: true],
+                
+        submoduleCfg: [
+            [url: "https://github.com/darey-devops/helm-tooling-frontend.git",
+            credentialsId:'GITHUB_CREDENTIALS']
+            ], 
         branches: [[name: 'master']],
         userRemoteConfigs: [[url: "https://gitlab.com/zooto.io/fluxcd-deployments.git",credentialsId:'GIT_CREDENTIALS']]
         ])
