@@ -31,8 +31,16 @@ pipeline {
       checkout([
         $class: 'GitSCM', 
         doGenerateSubmoduleConfigurations: false, 
-        extensions: [[$class: 'RelativeTargetDirectory', 
-            relativeTargetDir: 'release']],
+        extensions: [
+            [$class: 'RelativeTargetDirectory', 
+            relativeTargetDir: 'fluxcd-deployments'],
+            $class: 'SubmoduleOption', 
+            disableSubmodules: false, 
+            parentCredentials: false, 
+            recursiveSubmodules: true, 
+            reference: '', 
+            trackingSubmodules: true
+                    ],
         submoduleCfg: [[url: "https://github.com/darey-devops/helm-tooling-frontend.git",credentialsId:'GITHUB_CREDENTIALS']], 
         branches: [[name: 'master']],
         userRemoteConfigs: [[url: "https://gitlab.com/zooto.io/fluxcd-deployments.git",credentialsId:'GIT_CREDENTIALS']]
@@ -41,23 +49,6 @@ pipeline {
       }
         }
 
-          stage('Build preparations')
-        {
-            steps
-            {
-                script 
-                {
-                    // calculate GIT lastest commit short-hash
-                    gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-                    shortCommitHash = gitCommitHash.take(7)
-                    // calculate a sample version tag
-                    VERSION = shortCommitHash
-                    // set the build display name
-                    currentBuild.displayName = "#${BUILD_ID}-${VERSION}"
-                    IMAGE = "$PROJECT:$VERSION"
-                }
-            }
-        }
 
     // stage("cleanup") {
     //     steps {
