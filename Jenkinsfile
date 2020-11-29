@@ -19,7 +19,7 @@ pipeline {
         extensions: [],
         submoduleCfg: [], 
         branches: [[name: '$branch']],
-        userRemoteConfigs: [[url: "https://github.com/darey-devops/tooling.git",credentialsId:'GIT_CREDENTIALS']]
+        userRemoteConfigs: [[url: "https://github.com/darey-devops/tooling.git",credentialsId:'GITHUB_CREDENTIALS']]
         ])
         
       }
