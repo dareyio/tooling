@@ -128,10 +128,12 @@ pipeline {
                   cat FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml | sed "s/appVersion: .*/appVersion: \"$APP_VERSION_PREFIX${BUILD_NUMBER}\"/g" > FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml
                   git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
                   git fetch --all
-                  git checkout master
                   cd FluxHelmRelease/charts/helm-tooling-frontend
                   git commit -am "Promote app version $APP_VERSION_PREFIX${BUILD_NUMBER} "
-                  git push
+                  git branch jenkins_build_${BUILD_NUMBER}
+                  git checkout master
+                  git merge jenkins_build_${BUILD_NUMBER}
+                  git push origin master
               '''
             // sh 'cd FluxHelmRelease/charts/helm-tooling-frontend'
             // sh "git checkout master"
