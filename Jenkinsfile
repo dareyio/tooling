@@ -10,13 +10,13 @@ pipeline {
 
   stages {
 
-    stage("Initial cleanup") {
-        steps {
-        dir("${WORKSPACE}") {
-            deleteDir()
-        }
-        }
-    }
+    // stage("Initial cleanup") {
+    //     steps {
+    //     dir("${WORKSPACE}") {
+    //         deleteDir()
+    //     }
+    //     }
+    // }
 
     stage('Checkout Application Code')
     {
@@ -45,7 +45,7 @@ pipeline {
 
 
 
-        stage('Checkout Helm chart')
+        stage('Checkout Flux Deployment Repo For Release')
         {
         steps {
             //     echo 'Move out of working directory'
@@ -55,7 +55,9 @@ pipeline {
         checkout([
             $class: 'GitSCM', 
             doGenerateSubmoduleConfigurations: false, 
-            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'helm-tooling-frontend', $class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]],
+            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'helm-tooling-frontend', 
+                        $class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', 
+                        trackingSubmodules: false]],
             // extensions: [[$class: 'RelativeTargetDirectory', 
             //     relativeTargetDir: 'helm']],
             submoduleCfg: [[url: "https://github.com/darey-devops/helm-tooling-frontend.git",credentialsId:'GITHUB_CREDENTIALS']], 
