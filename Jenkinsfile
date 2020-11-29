@@ -5,6 +5,7 @@ pipeline {
     {
         PROJECT     = 'zooto-tooling-prod'
         ECRURL      = '059636857273.dkr.ecr.eu-central-1.amazonaws.com'
+        APP_VERSION_PREFIX = '0.1.'
         
     }
 
@@ -124,12 +125,14 @@ pipeline {
                  
             echo 'Update appVersion'
             sh '''
-                  cat FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml | sed "s/appVersion: .*/appVersion: \"${BUILD_NUMBER}\"/g" > FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml
+                  cat FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml | sed "s/appVersion: .*/appVersion: \"$APP_VERSION_PREFIX${BUILD_NUMBER}\"/g" > FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml
 
               '''
             // sh 'git tag -a tagName -m "Your tag comment"'
-            sh 'git commit -am "Promote app version"'
-            sh 'git push origin master'
+            sh "git checkout master"
+            // sh 'git merge master'
+            sh 'git commit -am "Promote app version $APP_VERSION_PREFIX${BUILD_NUMBER} "'
+            sh 'git push'
         }
       }
 
