@@ -129,6 +129,7 @@ pipeline {
                   git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
                   git fetch --all
                   git checkout master
+                  cd FluxHelmRelease/charts/helm-tooling-frontend
                   git commit -am "Promote app version $APP_VERSION_PREFIX${BUILD_NUMBER} "
                   git push
               '''
