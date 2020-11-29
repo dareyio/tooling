@@ -33,22 +33,19 @@ pipeline {
             doGenerateSubmoduleConfigurations: true, 
             userRemoteConfigs: 
             [
-                [
-                    url: "https://gitlab.com/zooto.io/fluxcd-deployments.git",
+                [   url: "https://gitlab.com/zooto.io/fluxcd-deployments.git",
                     credentialsId:'GIT_CREDENTIALS'
                 ]
             ],
             extensions: 
                 [
-                    [
-                        $class: 'RelativeTargetDirectory', 
+                    [   $class: 'RelativeTargetDirectory', 
                         relativeTargetDir: 'FluxHelmRelease'
                     ]
                 ],
             branches: 
                 [
-                    [
-                        name: 'master'
+                    [   name: 'master' 
                     ]
                 ]
         ])
@@ -89,6 +86,39 @@ pipeline {
             }
         }
       }
+
+    stage('Build For Staging Environment') {
+               when {
+                expression { BRANCH_NAME ==~ /(staging|master|main)/ }
+            }
+        steps {
+            echo 'Build Dockerfile....'
+            script {
+                sh("eval \$(aws ecr get-login --no-include-email --region eu-central-1 | sed 's|https://||')") 
+                // sh "docker build --network=host -t $IMAGE -f deploy/docker/Dockerfile ."
+                sh "docker build --network=host -t $IMAGE ."
+                docker.withRegistry("https://$ECRURL"){
+                docker.image("$IMAGE").push("staging-$BUILD_NUMBER")
+            }
+            }
+        }
+    }
+
+
+    stage('Build For Production Environment') {
+        when { tag "release-*" }
+        steps {
+            echo 'Build Dockerfile....'
+            script {
+                sh("eval \$(aws ecr get-login --no-include-email --region eu-central-1 | sed 's|https://||')") 
+                // sh "docker build --network=host -t $IMAGE -f deploy/docker/Dockerfile ."
+                sh "docker build --network=host -t $IMAGE ."
+                docker.withRegistry("https://$ECRURL"){
+                docker.image("$IMAGE").push("prod-$BUILD_NUMBER")
+            }
+            }
+        }
+    }
 
 
 
