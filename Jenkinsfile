@@ -31,7 +31,7 @@ pipeline {
       checkout(
           [
             $class: 'GitSCM', 
-            doGenerateSubmoduleConfigurations: false, 
+            doGenerateSubmoduleConfigurations: true, 
             extensions: 
                 [
                     [
@@ -40,7 +40,7 @@ pipeline {
                         $class: 'SubmoduleOption', 
                         disableSubmodules: false,
                         parentCredentials: false, 
-                        recursiveSubmodules: false, 
+                        recursiveSubmodules: true, 
                         reference: '', 
                         trackingSubmodules: true
                     ]
@@ -61,7 +61,8 @@ pipeline {
         userRemoteConfigs: 
             [
                 [
-                    url: "https://gitlab.com/zooto.io/fluxcd-deployments.git",credentialsId:'GIT_CREDENTIALS'
+                    url: "https://gitlab.com/zooto.io/fluxcd-deployments.git",
+                    credentialsId:'GIT_CREDENTIALS'
                 ]
             ]
         ])
