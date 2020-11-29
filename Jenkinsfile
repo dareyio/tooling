@@ -126,13 +126,17 @@ pipeline {
             echo 'Update appVersion'
             sh '''
                   cat FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml | sed "s/appVersion: .*/appVersion: \"$APP_VERSION_PREFIX${BUILD_NUMBER}\"/g" > FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml
-
+                  git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+                  git fetch --all
+                  git checkout master
+                  git commit -am "Promote app version $APP_VERSION_PREFIX${BUILD_NUMBER} "
+                  git push
               '''
-            sh 'cd FluxHelmRelease/charts/helm-tooling-frontend'
-            sh "git checkout master"
-            // sh 'git merge master'
-            sh 'git commit -am "Promote app version $APP_VERSION_PREFIX${BUILD_NUMBER} "'
-            sh 'git push'
+            // sh 'cd FluxHelmRelease/charts/helm-tooling-frontend'
+            // sh "git checkout master"
+            // // sh 'git merge master'
+            // sh 'git commit -am "Promote app version $APP_VERSION_PREFIX${BUILD_NUMBER} "'
+            // sh 'git push'
         }
       }
 
