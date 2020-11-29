@@ -41,13 +41,13 @@ pipeline {
       }
         }
 
-    stage("cleanup") {
-        steps {
-        dir("${WORKSPACE}") {
-            deleteDir()
-        }
-        }
-    }
+    // stage("cleanup") {
+    //     steps {
+    //     dir("${WORKSPACE}") {
+    //         deleteDir()
+    //     }
+    //     }
+    // }
  
     }
         post
