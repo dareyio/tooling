@@ -28,7 +28,7 @@ pipeline {
       checkout([
         $class: 'GitSCM', 
         doGenerateSubmoduleConfigurations: false, 
-        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'tmp'],
+        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'tmp']],
         submoduleCfg: [], 
         // branches: [[name: '$branch']],
         userRemoteConfigs: [[url: "https://github.com/darey-devops/tooling.git ",credentialsId:'GITHUB_CREDENTIALS']] 	
