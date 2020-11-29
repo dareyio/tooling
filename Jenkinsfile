@@ -128,7 +128,7 @@ pipeline {
 
               '''
             // sh 'git tag -a tagName -m "Your tag comment"'
-            sh 'git commit -am "Promote app version'
+            sh 'git commit -am "Promote app version"'
             sh 'git push origin master'
         }
       }
