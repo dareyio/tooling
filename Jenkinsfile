@@ -36,7 +36,9 @@ pipeline {
                 [
                     [
                         $class: 'RelativeTargetDirectory', 
-                        relativeTargetDir: 'release'
+                        relativeTargetDir: 'release',
+                        $class: 'SubmoduleOption', 
+                        disableSubmodules: false
                     ]
                 ],
         submoduleCfg: 
