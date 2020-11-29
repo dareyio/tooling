@@ -18,7 +18,7 @@ pipeline {
         }
     }
 
-    stage('Checkout')
+    stage('Checkout Application Code')
     {
       steps {
       checkout([
@@ -33,21 +33,39 @@ pipeline {
       }
         }
 
-    // stage('Checkout Helm chart')
-    // {
-    //   steps {
-    //   checkout([
-    //     $class: 'GitSCM', 
-    //     doGenerateSubmoduleConfigurations: false, 
-    //     extensions: [[$class: 'RelativeTargetDirectory', 
-    //         relativeTargetDir: 'helm']],
-    //     submoduleCfg: [], 
-    //     branches: [[name: 'master']],
-    //     userRemoteConfigs: [[url: "https://gitlab.com/propitix/kubernetes/helm.git",credentialsId:'GIT_CREDENTIALS']]
-    //     ])
-        
-    //   }
-    //     }
+
+// checkout([$class: 'GitSCM', branches: [[name: '*/' + env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], 
+// submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/IshentRas/cookbook-openshift3']]])
+
+
+
+
+        stage('Checkout Helm chart')
+        {
+        steps {
+        checkout([
+            $class: 'GitSCM', 
+            doGenerateSubmoduleConfigurations: false, 
+            extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]]
+            // extensions: [[$class: 'RelativeTargetDirectory', 
+            //     relativeTargetDir: 'helm']],
+            submoduleCfg: [[url: "https://github.com/darey-devops/helm-tooling-frontend.git",credentialsId:'GITHUB_CREDENTIALS']], 
+            branches: [[name: 'master']],
+            userRemoteConfigs: [[url: "https://gitlab.com/propitix/kubernetes/helm.git",credentialsId:'GIT_CREDENTIALS']]
+            ])
+            
+        }
+            }
+
+
+
+
+
+
+
+
+
+
           stage('Build preparations')
         {
             steps
@@ -84,7 +102,7 @@ pipeline {
 
     stage('Build For Staging Environment') {
                when {
-                expression { BRANCH_NAME ==~ /(staging|master)/ }
+                expression { BRANCH_NAME ==~ /(staging|master|main)/ }
             }
         steps {
             echo 'Build Dockerfile....'
