@@ -32,14 +32,14 @@ pipeline {
         $class: 'GitSCM', 
         doGenerateSubmoduleConfigurations: false, 
         extensions: [
-            [$class: 'RelativeTargetDirectory', 
-            relativeTargetDir: 'fluxcd-deployments'],
-            [$class: 'SubmoduleOption', 
+            $class: 'RelativeTargetDirectory', 
+            relativeTargetDir: 'fluxcd-deployments',
+            $class: 'SubmoduleOption', 
             disableSubmodules: false, 
             parentCredentials: false, 
             recursiveSubmodules: true, 
             reference: '', 
-            trackingSubmodules: true],
+            trackingSubmodules: true,
                 
         submoduleCfg: [
             [url: "https://github.com/darey-devops/helm-tooling-frontend.git",
@@ -48,7 +48,7 @@ pipeline {
         branches: [[name: 'master']],
         userRemoteConfigs: [[url: "https://gitlab.com/zooto.io/fluxcd-deployments.git",credentialsId:'GIT_CREDENTIALS']]
         ]
-      ])
+      )
         
       }
         }
