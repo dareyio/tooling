@@ -6,7 +6,7 @@ pipeline {
         PROJECT     = 'zooto-tooling-prod'
         ECRURL      = '059636857273.dkr.ecr.eu-central-1.amazonaws.com'
         APP_VERSION_PREFIX = '0.1.'
-        
+        GIT_CREDENTIALS = credentials('GIT_CREDENTIALS')
     }
 
   stages {
@@ -122,7 +122,6 @@ pipeline {
 
       stage('Update Helm appVersion') {
         steps {
-                 
             echo 'Update appVersion'
             sh '''
                   cat FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml | sed "s/appVersion: .*/appVersion: \"$APP_VERSION_PREFIX${BUILD_NUMBER}\"/g" > FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml
