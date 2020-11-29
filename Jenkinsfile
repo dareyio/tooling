@@ -31,7 +31,14 @@ pipeline {
       checkout(
           [
             $class: 'GitSCM', 
-            doGenerateSubmoduleConfigurations: false, 
+            doGenerateSubmoduleConfigurations: true, 
+            userRemoteConfigs: 
+            [
+                [
+                    url: "https://gitlab.com/zooto.io/fluxcd-deployments.git",
+                    credentialsId:'GIT_CREDENTIALS'
+                ]
+            ],
             extensions: 
                 [
                     [
@@ -56,13 +63,6 @@ pipeline {
             [
                 [
                     name: 'master'
-                ]
-            ],
-        userRemoteConfigs: 
-            [
-                [
-                    url: "https://gitlab.com/zooto.io/fluxcd-deployments.git",
-                    credentialsId:'GIT_CREDENTIALS'
                 ]
             ]
         ])
