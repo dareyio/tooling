@@ -128,7 +128,8 @@ pipeline {
                   git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
                   git fetch --all
                   cd FluxHelmRelease/charts/helm-tooling-frontend
-                  git commit -am "Promote app version $APP_VERSION_PREFIX${BUILD_NUMBER} "
+                  git add Chart.yaml
+                  git commit -m "Promote app version $APP_VERSION_PREFIX${BUILD_NUMBER} "
                   git branch jenkins_build_${BUILD_NUMBER}
                   git checkout master
                   git merge jenkins_build_${BUILD_NUMBER}
