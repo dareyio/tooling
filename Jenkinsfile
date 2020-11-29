@@ -128,7 +128,7 @@ pipeline {
                   cat FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml | sed "s/appVersion: .*/appVersion: \"$APP_VERSION_PREFIX${BUILD_NUMBER}\"/g" > FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml
 
               '''
-            // sh 'git tag -a tagName -m "Your tag comment"'
+            sh 'cd FluxHelmRelease/charts/helm-tooling-frontend'
             sh "git checkout master"
             // sh 'git merge master'
             sh 'git commit -am "Promote app version $APP_VERSION_PREFIX${BUILD_NUMBER} "'
