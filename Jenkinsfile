@@ -47,7 +47,8 @@ pipeline {
             ], 
         branches: [[name: 'master']],
         userRemoteConfigs: [[url: "https://gitlab.com/zooto.io/fluxcd-deployments.git",credentialsId:'GIT_CREDENTIALS']]
-        ])
+        ]
+      ])
         
       }
         }
