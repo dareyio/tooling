@@ -36,7 +36,7 @@ pipeline {
                 [
                     [
                         $class: 'RelativeTargetDirectory', 
-                        relativeTargetDir: 'release',
+                        relativeTargetDir: 'FluxHelmRelease',
             //             $class: 'SubmoduleOption', 
             //             disableSubmodules: false,
             //             parentCredentials: false, 
