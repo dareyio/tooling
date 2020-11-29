@@ -18,7 +18,6 @@ pipeline {
         doGenerateSubmoduleConfigurations: false, 
         extensions: [],
         submoduleCfg: [], 
-        // branches: [[name: '$branch']],
         userRemoteConfigs: [[url: "https://github.com/darey-devops/tooling.git",credentialsId:'GITHUB_CREDENTIALS']]
         ])
         
@@ -43,31 +42,53 @@ pipeline {
                 [
                     [
                         $class: 'RelativeTargetDirectory', 
-                        relativeTargetDir: 'FluxHelmRelease',
-                        // $class: 'SubmoduleOption', 
-            //             disableSubmodules: false,
-                        // parentCredentials: false 
-            //             recursiveSubmodules: true, 
-            //             reference: '', 
-            //             trackingSubmodules: true
+                        relativeTargetDir: 'FluxHelmRelease'
                     ]
                 ],
-        submoduleCfg: 
-            [
+            branches: 
                 [
-                    url: "https://github.com/darey-devops/helm-tooling-frontend.git",
-                    credentialsId:'GITHUB_CREDENTIALS'
+                    [
+                        name: 'master'
+                    ]
                 ]
-             ], 
-        branches: 
-            [
-                [
-                    name: 'master'
-                ]
-            ]
         ])
         
       }
+        }
+
+
+          stage('Build preparations')
+        {
+            steps
+            {
+                script 
+                {
+                    // calculate GIT lastest commit short-hash
+                    gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+                    shortCommitHash = gitCommitHash.take(7)
+                    // calculate a sample version tag
+                    VERSION = shortCommitHash
+                    // set the build display name
+                    currentBuild.displayName = "#${BUILD_ID}-${VERSION}"
+                    IMAGE = "$PROJECT:$VERSION"
+                }
+            }
+        }
+
+
+
+    stage('Build For Dev Environment') {
+               when { branch pattern: "^feature.*|^bug.*|^dev", comparator: "REGEXP"}
+            
+        steps {
+            echo 'Build Dockerfile....'
+                sh("eval \$(aws ecr get-login --no-include-email --region eu-central-1 | sed 's|https://||')") 
+                // sh "docker build --network=host -t $IMAGE -f deploy/docker/Dockerfile ."
+                sh "docker build --network=host -t $IMAGE ."
+                docker.withRegistry("https://$ECRURL"){
+                docker.image("$IMAGE").push("dev-$BUILD_NUMBER")
+            }
+            }
         }
 
     // stage("cleanup") {
