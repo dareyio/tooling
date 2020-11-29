@@ -89,7 +89,7 @@ pipeline {
 
     stage('Build For Staging Environment') {
                when {
-                expression { BRANCH_NAME ==~ /(staging|master|main)/ }
+                expression { BRANCH_NAME ==~ /(staging|develop|main)/ }
             }
         steps {
             echo 'Build Dockerfile....'
@@ -127,6 +127,9 @@ pipeline {
                   cat FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml | sed "s/appVersion: .*/appVersion: \"${BUILD_NUMBER}\"/g" > FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml
 
               '''
+            // sh 'git tag -a tagName -m "Your tag comment"'
+            sh 'git commit -am "Promote app version'
+            sh "git push origin master"
         }
       }
 
