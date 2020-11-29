@@ -46,6 +46,7 @@ pipeline {
             echo 'Checking out Helm Chart For Release'
             script {
                 sh("pwd && mkdir tmp && cd tmp") 
+            }
         checkout([
             $class: 'GitSCM', 
             doGenerateSubmoduleConfigurations: false, 
