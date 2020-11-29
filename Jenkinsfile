@@ -56,8 +56,7 @@ pipeline {
       }
         }
 
-
-          stage('Build preparations')
+         stage('Build preparations')
         {
             steps
             {
@@ -75,13 +74,12 @@ pipeline {
             }
         }
 
-
-
     stage('Build For Dev Environment') {
                when { branch pattern: "^feature.*|^bug.*|^dev", comparator: "REGEXP"}
             
         steps {
             echo 'Build Dockerfile....'
+            script {
                 sh("eval \$(aws ecr get-login --no-include-email --region eu-central-1 | sed 's|https://||')") 
                 // sh "docker build --network=host -t $IMAGE -f deploy/docker/Dockerfile ."
                 sh "docker build --network=host -t $IMAGE ."
@@ -90,6 +88,9 @@ pipeline {
             }
             }
         }
+      }
+
+
 
     // stage("cleanup") {
     //     steps {
