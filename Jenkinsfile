@@ -123,7 +123,7 @@ pipeline {
       stage('Update Helm appVersion') {
         steps {
             withCredentials(usernamePassword(credentialsId: GIT_CREDENTIALS)
-            echo 'Update appVersion'
+            // echo 'Update appVersion'
             sh '''
                   cat FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml | sed "s/appVersion: .*/appVersion: \"$APP_VERSION_PREFIX${BUILD_NUMBER}\"/g" > FluxHelmRelease/charts/helm-tooling-frontend/Chart.yaml
                   git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
