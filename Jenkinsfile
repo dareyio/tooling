@@ -32,19 +32,19 @@ pipeline {
           [
             $class: 'GitSCM', 
             doGenerateSubmoduleConfigurations: false, 
-            // extensions: 
-            //     [
-            //         [
-            //             $class: 'RelativeTargetDirectory', 
-            //             relativeTargetDir: 'release',
+            extensions: 
+                [
+                    [
+                        $class: 'RelativeTargetDirectory', 
+                        relativeTargetDir: 'release',
             //             $class: 'SubmoduleOption', 
             //             disableSubmodules: false,
             //             parentCredentials: false, 
             //             recursiveSubmodules: true, 
             //             reference: '', 
             //             trackingSubmodules: true
-            //         ]
-            //     ],
+                    ]
+                ],
         submoduleCfg: 
             [
                 [
