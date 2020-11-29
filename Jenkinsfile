@@ -49,7 +49,7 @@ pipeline {
         steps {
                 echo 'Move out of working directory'
             script {
-                sh("pwd $$ mkdir helm") 
+                sh("pwd && mkdir helm") 
             }
         checkout([
             $class: 'GitSCM', 
