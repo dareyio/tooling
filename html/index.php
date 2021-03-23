@@ -1,145 +1,112 @@
 <?php 
-    include('functions.php');
-    
-    if (!isLoggedIn()) {
-        $_SESSION['msg'] = "You must log in first";
-        header('location: login.php');
-    }
+    include('db_conn.php');
+    include('insert.php');
+// if (!(isset($_SESSION['sess_user']) && $_SESSION['sess_user'] != '')) {
+
+// header ("Location: home.php");
+
+// }
 ?>
 
-
 <!DOCTYPE html>
-
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="tooling_stylesheets.css">
-   <script src="script.js"></script> 
-    <title> PROPITIX TOOLING</title>
+	<title>Register</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/register.css">
+	<link href='https://fonts.googleapis.com/css?family=IBM Plex Mono' rel='stylesheet'>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">  
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>  
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 </head>
-
-
 <body>
-
-
-
-
-<div class="header">
-		
-	</div>
-	<div class="content">
-		<!-- notification message -->
-		<?php if (isset($_SESSION['success'])) : ?>
-			<div class="error success" >
-				<h3>
-					<?php 
-						echo $_SESSION['success']; 
-						unset($_SESSION['success']);
-					?>
-				</h3>
+	<div class="main-content">
+		<div class="container">
+			<div class="row register-sec">
+				<div class="col-md-6 one-half">
+					<div class="  register-content">
+						<div class=" row">
+							<div class="col-md-6 reg-title one-half">
+								<p class="register-head">Register</p>
+							</div>
+							<div class="col-md-6 logo-title one-half">
+								<a href="login.php">Log In</a> 
+							</div>
+						</div>
+						<div class="row text-center">
+							<p class="instr-content" > Fill in details to register account</p>
+						</div>
+						<div class="reg-form">
+						<form action="home.php"  method="POST">
+							<div <?php if (isset($name_error)): ?> class="form_error" <?php endif ?> >
+							<fieldset form="form">
+							  <legend>Name</legend>
+							 
+							  <input type="text" id="name" name="name" value="<?php echo $username; ?>" required><br><br>
+							  
+							</fieldset>
+							<?php if (isset($name_error)): ?>
+								<div class="error-display">
+						  			<span ><?php echo $name_error; ?></span>
+						  		</div>
+						  <?php endif ?>
+					  	</div>
+					  	<div <?php if (isset($email_error)): ?> class="form_error" <?php endif ?> >
+							<fieldset form="form">
+							  <legend>Email</legend>
+							 
+							  <input type="email" id="email" name="email" value="<?php echo $email; ?>" required ><br><br>
+							  
+							</fieldset>
+							<?php if (isset($email_error)): ?>
+					     	 <div class="error-display">
+					      		<span><?php echo $email_error; ?></span>
+					      	</div>
+					      <?php endif ?>
+					  	</div>
+							<fieldset form="form">
+							  <legend>Password</legend>
+							 
+							  <input type="password" id="password" name="password" required><br><br>
+							  <img class="eye-img show_pswd" src="images/eye.png" alt="" >
+							</fieldset>
+							<div class="submit-btn">
+								<input type="submit" name="register" value="Register">
+							</div>
+						</form>
+							
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 one-half img-sec" style="background-image: url('images/africa-officer-employ 1.png');background-size: cover!important; background-repeat: no-repeat;">
+					<div class="img-overlay" >
+						<div class="content">
+							<img class="logo-img" src="images/logo.png" alt="" >
+							<p>Devops Tooling Website</p>
+						</div>
+						 
+					</div>
+					
+				</div>
 			</div>
-		<?php endif ?>
-		<!-- logged in user information -->
-		<div class="profile_info">
-		<!--	<img src="images/user_profile.png"  > -->
-
-			<div>
-				<?php  if (isset($_SESSION['user'])) : ?>
-					<strong><?php echo $_SESSION['user']['username']; ?></strong>
-
-					<small>
-						<i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
-						<br>
-						<a href="index.php?logout='1'" style="color: red;">logout</a>
-					</small>
-
-				<?php endif ?>
-			</div>
+			
 		</div>
 	</div>
+	<script >
+		jQuery("body").on('click', '.eye-img', function() {
+  jQuery(this).toggleClass("show_pswd");
+  var input = $("#password");
+  if (input.attr("type") === "password") {
+    input.attr("type", "text");
+  } else {
+    input.attr("type", "password");
+  }
 
+});
 
-
-
-
-
-    <div class="Logo">
-
-        <a href="index.php">
-            <img src="img/logo-propitix.png" alt="" width="220" height="150">
-            </a>
-    </div>
-   
-
-    <h1> PROPITIX TOOLING WEBSITE </h1>
-    <h2 id="test">Propitix.io</h2>
-
-
-    
-    <div class="container">
-        <div class="box">
-            <a href="https://jenkins.infra.zooto.io/" target="_blank">
-                <img src="img/jenkins.png" alt="Snow" width="400" height="150">
-            </a>
-        </div>
-
-        <div class="box">
-            <a href="https://grafana.infra.zooto.io/" target="_blank">
-                <img src="img/grafana.png" alt="Snow2" width="400" height="150">
-            </a>
-
-
-        </div>
-
-        <div class="box">
-            <a href="https://rancher.infra.zooto.io/" target="_blank">
-                <img src="img/rancher.png" alt="Snow" width="400" height="150">
-            </a>
-        </div>
-
-
-    </div>
-     <div class="container">
-        <div class="box">
-            <a href="https://prometheus.infra.zooto.io/" target="_blank">
-                <img src="img/prometheus.png" alt="Snow" width="400" height="150">
-            </a>
-        </div>
-
-        <div class="box">
-            <a href="https://k8s-metrics.infra.zooto.io/" target="_blank">
-                <img src="img/kubernetes.png" alt="Snow" width="400" height="120">
-            </a>
-
-        </div>
-
-        <div class="box">
-            <a href="https://kibana.infra.zooto.io/" target="_blank">
-                <img src="img/kibana.png" alt="Snow" width="400" height="100">
-            </a>
-        </div>
-
-
-    </div>
-
-    <div class="container">
-        <div class="box">
-            <a href="https://artifactory.infra.zooto.io/" target="_blank">
-                <img src="img/jfrog.png" alt="snow" width="400" height="100">
-            </a>
-
-        </div>
-
-    </div>
-
-</div>
-
-    </section>
-
-
+ 
+	</script>
 </body>
-
-
 </html>
