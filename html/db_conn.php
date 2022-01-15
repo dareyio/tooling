@@ -1,9 +1,8 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "pass";
-$dbname = "dare";
-
+$servername = "mysqlserverhost";
+$username = "clientConnect";
+$password = "password@@@@@";
+$dbname = "toolingdb5";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
