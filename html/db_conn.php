@@ -2,7 +2,7 @@
 $servername = "mysqlserverhost";
 $username = "clientConnect";
 $password = "password@@@@@";
-$dbname = "toolingdb5";
+$dbname = "toolingdb";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
