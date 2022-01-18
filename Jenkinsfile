@@ -12,4 +12,14 @@ pipeline {
          }
        }
     }
+
+       stage('Unit Testing') {
+         steps {
+                    sh '''
+                    echo "Testing the software (Unit Testing)"
+                    '''
+         }
+       }
+    }
+
 }
