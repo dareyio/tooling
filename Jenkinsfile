@@ -27,7 +27,7 @@ pipeline {
 
 
        stage('Deploy to Dev environment') {
-        when { branch pattern: "feature-\\d+", comparator: "REGEXP"}
+        when { branch pattern: "^feature.*|^bug.*|^dev", comparator: "REGEXP"}
          steps {
                     sh '''
                     echo "Deploying the software to Non-Production Environment only from Feature Branch"
