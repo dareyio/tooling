@@ -37,7 +37,7 @@ pipeline {
 
        stage('Deploy to Integration environment') {
                        when {
-                expression { BRANCH_NAME ==~ /(staging|develop)/ }
+                expression { BRANCH_NAME ==~ /(integration|develop)/ }
             }
          steps {
                     sh '''
