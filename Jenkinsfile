@@ -25,6 +25,14 @@ pipeline {
          }
        }
 
+       stage('Quality Gate') {
+         steps {
+                    sh '''
+                    Implementing Quality Gate Checks"
+                    '''
+         }
+       }
+
 
        stage('Deploy to Dev environment') {
         when { branch pattern: "^feature.*|^bug.*|^dev", comparator: "REGEXP"}
@@ -58,7 +66,7 @@ pipeline {
        }
 
 
-       stage('Deploy to production') {
+       stage('Deploy to pre-production') {
         when { buildingTag() }
          steps {
                     sh '''
