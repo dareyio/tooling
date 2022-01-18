@@ -17,14 +17,12 @@ pipeline {
                     sh '''
                     echo "Testing the software (Unit Testing)"
                     '''
-         }
-
-         steps {
+            step {
                     sh '''
                     echo "Step2"
                     '''
          }
-
+         }
        }
 
     }
