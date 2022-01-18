@@ -46,6 +46,17 @@ pipeline {
          }
        }
 
+       stage('Run Integration tests') {
+                       when {
+                expression { BRANCH_NAME ==~ /(integration|develop)/ }
+            }
+         steps {
+                    sh '''
+                    echo "Run Integration Tests"
+                    '''
+         }
+       }
+
 // Next stage Must always be above thsi line 
       }
     }
