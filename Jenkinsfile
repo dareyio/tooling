@@ -35,6 +35,16 @@ pipeline {
          }
        }
 
+       stage('Deploy to Integration environment') {
+                       when {
+                expression { BRANCH_NAME ==~ /(staging|develop)/ }
+            }
+         steps {
+                    sh '''
+                    echo "Deploying the software to Integration Environment from Develop branch for further integration tests"
+                    '''
+         }
+       }
 
 // Next stage Must always be above thsi line 
       }
