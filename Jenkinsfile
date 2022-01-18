@@ -75,6 +75,15 @@ pipeline {
          }
        }
 
+       stage('Deploy to Production') {
+        when { buildingTag() }
+         steps {
+                    sh '''
+                    echo "Deploying the software to Production Environment from Master branch or a Git Tag"
+                    '''
+         }
+       }
+
 // Next stage Must always be above thsi line 
       }
     }
