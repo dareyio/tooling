@@ -28,7 +28,7 @@ pipeline {
        stage('Quality Gate') {
          steps {
                     sh '''
-                    Implementing Quality Gate Checks"
+                    echo "Implementing Quality Gate Checks"
                     '''
          }
        }
