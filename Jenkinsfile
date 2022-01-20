@@ -45,7 +45,7 @@ pipeline {
 
        stage('Deploy to Integration environment') {
                        when {
-                expression { BRANCH_NAME ==~ /(integration|develop)/ }
+                expression { BRANCH_NAME ==~ /(integration|develop|master)/ }
             }
          steps {
                     sh '''
@@ -56,7 +56,7 @@ pipeline {
 
        stage('Run Integration tests') {
                        when {
-                expression { BRANCH_NAME ==~ /(integration|develop)/ }
+                expression { BRANCH_NAME ==~ /(integration|develop|master)/ }
             }
          steps {
                     sh '''
