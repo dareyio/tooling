@@ -1,6 +1,5 @@
 pipeline {
   agent any
-
   stages {
 
        stage('Building the software') {
@@ -8,6 +7,30 @@ pipeline {
              echo 'Building the software'
                     sh '''
                     echo "Building the software"
+                    ls
+                    pwd
+                    helm upgrade -i 
+                    '''
+         }
+       }
+
+
+       stage('Unit Testing') {
+         steps {
+                    sh '''
+                    echo "Testing the software (Unit Testing)"
+                    '''
+
+                    sh '''
+                    echo "Step2"
+                    '''
+         }
+       }
+
+       stage('Quality Gate') {
+         steps {
+                    sh '''
+                    echo "Implementing Quality Gate Checks"
                     '''
          }
        }
