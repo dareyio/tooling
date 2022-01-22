@@ -77,6 +77,9 @@ pipeline {
 
        stage('Deploy to Production') {
         when { buildingTag() }
+          input{
+                message "Do you want to proceed for production deployment?"
+            }
          steps {
                     sh '''
                     echo "Deploying the software to Production Environment from Master branch or a Git Tag"
