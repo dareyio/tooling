@@ -84,6 +84,7 @@ pipeline {
               timeout(time: 10, unit: 'MINUTES') {
                 input(id: "Deploy Gate", message: "Deploy ${params.project_name}?", ok: 'Deploy')
               }
+        }
          steps {
                     sh '''
                     echo "Deploying the software to Production Environment from Master branch or a Git Tag"
