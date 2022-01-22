@@ -7,9 +7,6 @@ pipeline {
              echo 'Building the software'
                     sh '''
                     echo "Building the software"
-                    ls
-                    pwd
-                    helm upgrade -i 
                     '''
          }
        }
