@@ -42,6 +42,17 @@ pipeline {
          }
        }
 
+       stage('Deploy to Integration environment') {
+                       when {
+                expression { BRANCH_NAME ==~ /(integration|develop|master)/ }
+            }
+         steps {
+                    sh '''
+                    echo "Deploying the software to Integration Environment from Develop branch for further integration tests"
+                    '''
+         }
+       }
+
 
     }
 }
