@@ -54,5 +54,29 @@ pipeline {
        }
 
 
+       stage('Deploy to pre-production') {
+        when { buildingTag() }
+         steps {
+                    sh '''
+                    echo "Deploying the software to Production Environment from Master branch or a Git Tag"
+                    '''
+         }
+       }
+
+       stage('Deploy to Production') {
+        when { buildingTag() }
+         steps {
+
+            script {
+              timeout(time: 10, unit: 'MINUTES') {
+                input(id: "Deploy Gate", message: "Deploy to production?", ok: 'Deploy')
+              }
+        }
+                    sh '''
+                    echo "Deploying the software to Production Environment from Master branch or a Git Tag"
+                    '''
+         }
+       }
+
     }
 }
