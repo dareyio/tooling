@@ -77,15 +77,11 @@ pipeline {
 
        stage('Deploy to Production') {
         when { buildingTag() }
-        //   input{
-        //         message "Do you want to proceed for production deployment?"
-        //     }
-
          steps {
 
             script {
               timeout(time: 10, unit: 'MINUTES') {
-                input(id: "Deploy Gate", message: "Deploy ${params.project_name}?", ok: 'Deploy')
+                input(id: "Deploy Gate", message: "Deploy to production?", ok: 'Deploy')
               }
         }
                     sh '''
