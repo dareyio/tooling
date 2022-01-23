@@ -1,31 +1,26 @@
 <?php
 
-
-//connect to .env 
+//connect .env file
 
 require_once realpath(__DIR__ . "/vendor/autoload.php");
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-//loads the required env when called
-$dotenv->load();  
-
-//get database connectionfrom environment variable file
+// enabling environment variable for php
 
 
-$Hostname = $_ENV["MYSQLIP"]; // input servername
-$dbUsername = $_ENV["MYSQLUSER"]; // input username
-$dbPassword = $_ENV["MYSQLPASS"]; //input password
-$dbName = $_ENV["MYSQLDBNAME"]; // input dbname
+$servername = $_ENV["MYSQL_IP"]; // input servername
+$username = $_ENV["MYSQL_USER"]; // input username
+$password = $_ENV["MYSQL_PASS"]; //input password
+$dbname = $_ENV["MYSQL_DBNAME"]; // input dbname
+
 
 // Create connection
-$conn = new mysqli($Hostname, $dbUsername, $dbPassword, $dbName);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
-
-
-
 ?>
