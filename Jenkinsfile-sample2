@@ -1,5 +1,6 @@
 pipeline {
   agent any
+
   stages {
 
        stage('Building the software') {
@@ -53,6 +54,17 @@ pipeline {
          }
        }
 
+       stage('Run Integration tests') {
+                       when {
+                expression { BRANCH_NAME ==~ /(integration|develop|master)/ }
+            }
+         steps {
+                    sh '''
+                    echo "Run Integration Tests"
+                    '''
+         }
+       }
+
 
        stage('Deploy to pre-production') {
         when { buildingTag() }
@@ -78,5 +90,6 @@ pipeline {
          }
        }
 
+// Next stage Must always be above thsi line 
+      }
     }
-}
