@@ -6,7 +6,7 @@
 
 if(!isset($_SESSION['sess_user'])) {
 
-header ("Location: login.php");
+header ("Insert: login.php");
 
 }
 
