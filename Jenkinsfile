@@ -7,6 +7,8 @@ pipeline {
              echo 'Building the software'
                     sh '''
                     echo "Building the software"
+                    which docker 
+                    sleep 1000
                     '''
          }
        }
