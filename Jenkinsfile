@@ -72,13 +72,13 @@ pipeline {
                 echo "HTTP response status code: ${status_code}"
 
                 if (status_code != "200") {
-                    error('URL status different of 200. Exiting script.') : (docker.withRegistry("https://$ECRURL"){
-                    docker.image("$IMAGE").push("dev-$BUILD_NUMBER")
-                    })
-                } 
+                    error('URL status different of 200. Exiting script.') 
+                }
+                docker.withRegistry("https://$ECRURL"){
+                docker.image("$IMAGE").push("staging-$BUILD_NUMBER") 
             }
         }
-      }
+    }
 
     stage('Build For Staging Environment') {
             when {
