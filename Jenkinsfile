@@ -76,6 +76,7 @@ pipeline {
                 }
                 docker.withRegistry("https://$ECRURL"){
                 docker.image("$IMAGE").push("staging-$BUILD_NUMBER") 
+                }
             }
         }
     }
