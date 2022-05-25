@@ -59,7 +59,7 @@ pipeline {
             script {
                 sh("eval \$(aws ecr get-login --no-include-email --region us-east-1 | sed 's|https://||')") 
                 // sh "docker build --network=host -t $IMAGE -f deploy/docker/Dockerfile ."
-                // sh "docker build --network=host -t $IMAGE ."
+                sh "docker build --network=host -t $IMAGE ."
                 sh "docker-compose -f tooling.yml up -d"
                 cmd = """
                     curl -s -X GET -H 'accept: */*' -w '{http_code}' \
