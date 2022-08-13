@@ -42,7 +42,7 @@ pipeline {
          }
        }
 
-       stage('Deploy to Integration environment') {
+       stage('Trigger Upstream Piepline and Deploy to Integration environment') {
                        when {
                 expression { BRANCH_NAME ==~ /(integration|develop|master)/ }
             }
@@ -54,7 +54,7 @@ pipeline {
        }
 
 
-       stage('Deploy to pre-production') {
+       stage('Trigger Upstream Piepline and Deploy to pre-production') {
         when { buildingTag() }
          steps {
                     sh '''
@@ -63,7 +63,7 @@ pipeline {
          }
        }
 
-       stage('Deploy to Production') {
+       stage('Trigger Upstream Piepline and Deploy to Production') {
         when { buildingTag() }
          steps {
 

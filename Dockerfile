@@ -1,5 +1,10 @@
 FROM php:7-apache
-MAINTAINER Dare dare@zooto.io
+MAINTAINER Dare dare@darey.io
+
+ENV MYSQL_IP=$MYSQL_IP
+ENV MYSQL_USER=$MYSQL_USER
+ENV MYSQL_PASS=$MYSQL_PASS
+ENV MYSQL_DBNAME=$MYSQL_DBNAME
 
 RUN docker-php-ext-install mysqli
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
