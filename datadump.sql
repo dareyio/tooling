@@ -21,9 +21,9 @@ SET time_zone = "+00:00";
 -- Database: `toolingdb`
 --
 
-CREATE DATABASE toolingdb;
+CREATE DATABASE IF NOT EXISTS toolingdb;
 
-Use Toolingdb;
+Use toolingdb;
 -- --------------------------------------------------------
 
 --

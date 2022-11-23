@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  tooling_frontend:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "5000:80"
+    volumes:
+      - tooling_frontend:/var/www/html
+    
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: toolingdb
+      MYSQL_USER: somex
+      MYSQL_PASSWORD: password123
+      MYSQL_ROOT_PASSWORD: password1234
+    # ports:
+    #   - "9906:3306"    
+    volumes:
+      - db:/var/lib/mysql
+      - .datadump.sql/:/docker-entrypoint-initdb.d/datadump.sql
+
+networks:
+  default:
+    external:
+      name: tooling_app_network
+  
+volumes:
+  tooling_frontend:
+  db:
+
+# mysql> source /path/to/file.sql will load .sql data in mysql
