@@ -44,30 +44,30 @@ pipeline {
     stage('Build-Docker-Image') {
       steps {
         container('docker') {
-          sh 'docker build -t ss69261/testing-image:latest .'
+          sh 'docker build -t dareyregistry/java-app:latest .'
         }
       }
     }
-    stage('Login-Into-Docker') {
-      steps {
-        container('docker') {
-          sh 'docker login -u <docker_username> -p <docker_password>'
-      }
-    }
-    }
+    // stage('Login-Into-Docker') {
+    //   steps {
+    //     container('docker') {
+    //       sh 'docker login -u <docker_username> -p <docker_password>'
+    //   }
+    // }
+    // }
      stage('Push-Images-Docker-to-DockerHub') {
       steps {
         container('docker') {
-          sh 'docker push ss69261/testing-image:latest'
+          sh 'docker push dareyregistry/java-app:latest'
       }
     }
      }
   }
-    post {
-      always {
-        container('docker') {
-          sh 'docker logout'
-      }
-      }
-    }
+    // post {
+    //   always {
+    //     container('docker') {
+    //       sh 'docker logout'
+    //   }
+    //   }
+    // }
 }
