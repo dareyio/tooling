@@ -12,6 +12,7 @@ pipeline {
                     echo "Building the software"
                     pwd
                     ls -latr
+                    sleep 3000000
                     docker build .
                     '''
                    }
