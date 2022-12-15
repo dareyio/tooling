@@ -1,12 +1,9 @@
 pipeline {
-  agent {
-    docker {
-      image 'docker:22.06.0-beta.0-dind'
-    }
-  }
+  agent any
   stages {
 
-       stage('Building the software') {
+       stage('Building the software')
+       agent { label 'docker' }{
          steps {
              echo 'Building the software'
                     sh '''
