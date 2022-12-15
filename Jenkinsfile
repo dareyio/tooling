@@ -48,13 +48,13 @@ pipeline {
         }
       }
     }
-    // stage('Login-Into-Docker') {
-    //   steps {
-    //     container('docker') {
-    //       sh 'docker login -u <docker_username> -p <docker_password>'
-    //   }
-    // }
-    // }
+    stage('Login-Into-Docker') {
+      steps {
+        container('docker') {
+          sh 'docker login -u dareyregistry -p Phartion001ng'
+      }
+    }
+    }
      stage('Push-Images-Docker-to-DockerHub') {
       steps {
         container('docker') {
@@ -63,11 +63,11 @@ pipeline {
     }
      }
   }
-    // post {
-    //   always {
-    //     container('docker') {
-    //       sh 'docker logout'
-    //   }
-    //   }
-    // }
+    post {
+      always {
+        container('docker') {
+          sh 'docker logout'
+      }
+      }
+    }
 }
