@@ -1,18 +1,27 @@
 pipeline {
   agent any
   stages {
-
-       stage('Building the software')
-       agent { label 'docker' }{
-         steps {
-             echo 'Building the software'
+       stage('Building the software') {
+        agent {
+                docker "build-agent
+            }
+            stages {
+               stage("build") {
+                   steps {
                     sh '''
                     echo "Building the software"
                     pwd
                     ls -latr
                     docker build .
                     '''
-         }
+                   }
+               }
+               stage("test") {
+                   steps {
+                       sh "Testing the software"
+                   }
+               }
+            }
        }
 
 
