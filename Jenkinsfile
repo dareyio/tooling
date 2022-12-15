@@ -3,7 +3,7 @@ pipeline {
   stages {
        stage('Building the software') {
         agent {
-                label "jenkins-jenkins-agent docker"
+                label "docker"
             }
             stages {
                stage("build") {
