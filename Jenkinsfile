@@ -3,7 +3,7 @@ pipeline {
   stages {
        stage('Building the software') {
         agent {
-                docker "build-agent
+                docker "build-agent"
             }
             stages {
                stage("build") {
