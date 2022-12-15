@@ -1,96 +1,44 @@
 pipeline {
-  agent any
+  agent {
+    kubernetes {
+      yaml '''
+        apiVersion: v1
+        kind: Pod
+        spec:
+          containers:
+          - name: maven
+            image: maven:alpine
+            command:
+            - cat
+            tty: true
+          - name: docker
+            image: docker:latest
+            command:
+            - cat
+            tty: true
+            volumeMounts:
+             - mountPath: /var/run/docker.sock
+               name: docker-sock
+          volumes:
+          - name: docker-sock
+            hostPath:
+              path: /var/run/docker.sock    
+        '''
+    }
+  }
   stages {
-       stage('Building the software') {
-        agent {
-                label "docker"
-            }
-            stages {
-               stage("build") {
-                   steps {
-                    sh '''
-                    echo "Building the software"
-                    pwd
-                    ls -latr
-                    #sleep 3000000
-                    docker build .
-                    '''
-                   }
-               }
-               stage("test") {
-                   steps {
-                       sh "Testing the software"
-                   }
-               }
-            }
-       }
-
-
-       stage('Unit Testing') {
-         steps {
-                    sh '''
-                    echo "Testing the software (Unit Testing)"
-                    '''
-
-                    sh '''
-                    echo "Step2"
-                    '''
-         }
-       }
-
-       stage('Quality Gate') {
-         steps {
-                    sh '''
-                    echo "Implementing Quality Gate Checks"
-                    '''
-         }
-       }
-
-
-       stage('Deploy to Dev environment') {
-        when { branch pattern: "^feature.*|^bug.*|^dev", comparator: "REGEXP"}
-         steps {
-                    sh '''
-                    echo "Deploying the software to Non-Production Environment only from Feature Branch"
-                    '''
-         }
-       }
-
-       stage('Trigger Upstream Piepline and Deploy to Integration environment') {
-                       when {
-                expression { BRANCH_NAME ==~ /(integration|develop|master)/ }
-            }
-         steps {
-                    sh '''
-                    echo "Deploying the software to Integration Environment from Develop branch for further integration tests"
-                    '''
-         }
-       }
-
-
-       stage('Trigger Upstream Piepline and Deploy to pre-production') {
-        when { buildingTag() }
-         steps {
-                    sh '''
-                    echo "Deploying the software to Production Environment from Master branch or a Git Tag"
-                    '''
-         }
-       }
-
-       stage('Trigger Upstream Piepline and Deploy to Production') {
-        when { buildingTag() }
-         steps {
-
-            script {
-              timeout(time: 10, unit: 'MINUTES') {
-                input(id: "Deploy Gate", message: "Deploy to production?", ok: 'Deploy')
-              }
+    stage('Clone') {
+      steps {
+        container('maven') {
+          git branch: 'main', changelog: false, poll: false, url: 'https://mohdsabir-cloudside@bitbucket.org/mohdsabir-cloudside/java-app.git'
         }
-                    sh '''
-                    echo "Deploying the software to Production Environment from Master branch or a Git Tag"
-                    '''
-         }
-       }
-
+      }
+    }  
+    stage('Build-Jar-file') {
+      steps {
+        container('maven') {
+          sh 'mvn package'
+        }
+      }
     }
 }
