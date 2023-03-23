@@ -1,5 +1,5 @@
 FROM php:7-apache
-MAINTAINER Dare dare@darey.io
+# MAINTAINER Dare dare@darey.io
 
 ENV MYSQL_IP=$MYSQL_IP
 ENV MYSQL_USER=$MYSQL_USER
@@ -14,7 +14,7 @@ COPY start-apache /usr/local/bin
 RUN a2enmod rewrite
 
 # Copy application source
-COPY html /var/www
-RUN chown -R www-data:www-data /var/www
+COPY html /var/www/html
+RUN chown -R www-data:www-data /var/www/html
 
 CMD ["start-apache"]
