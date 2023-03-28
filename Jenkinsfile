@@ -1,73 +1,31 @@
 pipeline {
-  agent {
-    kubernetes {
-      yaml '''
-        apiVersion: v1
-        kind: Pod
-        spec:
-          containers:
-          - name: maven
-            image: maven:alpine
-            command:
-            - cat
-            tty: true
-          - name: docker
-            image: docker:latest
-            command:
-            - cat
-            tty: true
-            volumeMounts:
-             - mountPath: /var/run/docker.sock
-               name: docker-sock
-          volumes:
-          - name: docker-sock
-            hostPath:
-              path: /var/run/docker.sock    
-        '''
-    }
+  agent any
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
+  environment {
+    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
   }
   stages {
-    stage('Clone') {
+    stage('Build image for toolng-app') {
       steps {
-        container('maven') {
-          git branch: 'main', changelog: false, poll: false, url: 'https://mohdsabir-cloudside@bitbucket.org/mohdsabir-cloudside/java-app.git'
-        }
-      }
-    }  
-    stage('Build-Jar-file') {
-      steps {
-        container('maven') {
-          sh 'mvn package'
-        }
+        sh 'docker build -t stlng/tooling-master:0.0.1 .'
       }
     }
-    stage('Build-Docker-Image') {
+    stage('Login to docker hub') {
       steps {
-        container('docker') {
-          sh 'docker build -t dareyregistry/java-app:latest .'
-        }
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
       }
     }
-    stage('Login-Into-Docker') {
+    stage('Push docker image to docker hub registry') {
       steps {
-        container('docker') {
-          sh 'docker login -u dareyregistry -p Phartion001ng'
+        sh 'docker push stlng/tooling-master:0.0.1'
       }
     }
-    }
-     stage('Push-Images-Docker-to-DockerHub') {
-      steps {
-        container('docker') {
-          sh 'docker push dareyregistry/java-app:latest'
-      }
-    }
-     }
   }
-    post {
-      always {
-        container('docker') {
-          sh 'docker logout'
-      }
-      }
+  post {
+    always {
+      sh 'docker logout'
     }
+  }
 }
