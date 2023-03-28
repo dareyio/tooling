@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Build image for toolng-app') {
       steps {
-        sh 'docker build -t stlng/tooling-master:0.0.1 .'
+        sh 'docker build -t stlng/tooling-feature:0.0.1 .'
       }
     }
     stage('Login to docker hub') {
@@ -19,7 +19,7 @@ pipeline {
     }
     stage('Push docker image to docker hub registry') {
       steps {
-        sh 'docker push stlng/tooling-master:0.0.1'
+        sh 'docker push stlng/tooling-feature:0.0.1'
       }
     }
   }
