@@ -25,11 +25,11 @@ pipeline {
         httpRequest url:"http://localhost:5000", 
         validResponseCodes:'200'
       
-        echo "HTTP response status code: ${status_code}"
+        // echo "HTTP response status code: ${status_code}"
 
-          if (status_code != "200") {
-              error('URL status different from 200. FAILURE')
-        }
+        //   if (status_code != "200") {
+        //       error('URL status different from 200. FAILURE')
+        // }
       }
     }
 
