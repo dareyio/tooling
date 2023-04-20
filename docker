@@ -1,0 +1,10 @@
+Command 'shell' not found, did you mean:
+  command 'spell' from deb spell (1.0-24.2)
+  command 'rshell' from deb pyboard-rshell (0.0.31-0ubuntu1)
+  command 'bshell' from deb avahi-ui-utils (0.8-5ubuntu5)
+  command 'jshell' from deb openjdk-11-jdk-headless (11.0.18+10-0ubuntu1~22.04)
+  command 'jshell' from deb openjdk-17-jdk-headless (17.0.6+10-0ubuntu1~22.04)
+  command 'jshell' from deb openjdk-18-jdk-headless (18.0.2+9-2~22.04)
+  command 'jshell' from deb openjdk-19-jdk-headless (19.0.2+7-0ubuntu3~22.04)
+  command 'shelr' from deb shelr (0.16.3-2.1)
+Try: sudo apt install <deb name>

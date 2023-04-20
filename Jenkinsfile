@@ -1,73 +1,57 @@
 pipeline {
-  agent {
-    kubernetes {
-      yaml '''
-        apiVersion: v1
-        kind: Pod
-        spec:
-          containers:
-          - name: maven
-            image: maven:alpine
-            command:
-            - cat
-            tty: true
-          - name: docker
-            image: docker:latest
-            command:
-            - cat
-            tty: true
-            volumeMounts:
-             - mountPath: /var/run/docker.sock
-               name: docker-sock
-          volumes:
-          - name: docker-sock
-            hostPath:
-              path: /var/run/docker.sock    
-        '''
-    }
+  agent any
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
+  environment {
+    PATH = '/usr/bin/sh'
+    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
   }
   stages {
-    stage('Clone') {
+    stage('Build image for tooling-app') {
       steps {
-        container('maven') {
-          git branch: 'main', changelog: false, poll: false, url: 'https://mohdsabir-cloudside@bitbucket.org/mohdsabir-cloudside/java-app.git'
+        sh 'docker build -t stlng/tooling-master:0.0.2 .'
+      }
+    }
+    
+    stage('Build container for tooling-app') {
+      steps {
+        sh 'docker compose -f tooling.yml  up -d'
+      }
+    }
+
+    stage('Test Stage') {
+      steps {
+        httpRequest url:"http://localhost:5000", 
+        validResponseCodes:'200'
+      
+        echo "HTTP response status code: ${status_code}"
+
+          if (status_code != "200") {
+              error('URL status different from 200. FAILURE')
         }
       }
-    }  
-    stage('Build-Jar-file') {
+    }
+
+    stage('Login to docker hub') {
       steps {
-        container('maven') {
-          sh 'mvn package'
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+      }
+    }
+
+    stage('Push docker image to docker hub registry') {
+      steps {
+        sh 'docker push stlng/tooling-master:0.0.2'
+      }
+    }
+
+  post {
+    always {
+      sh 'docker logout'
+    // Clean after build
+      sh 'docker compose -f tooling.yml down'
+      sh 'docker rmi stlng/tooling-master:0.0.2'
         }
       }
     }
-    stage('Build-Docker-Image') {
-      steps {
-        container('docker') {
-          sh 'docker build -t dareyregistry/java-app:latest .'
-        }
-      }
-    }
-    stage('Login-Into-Docker') {
-      steps {
-        container('docker') {
-          sh 'docker login -u dareyregistry -p Phartion001ng'
-      }
-    }
-    }
-     stage('Push-Images-Docker-to-DockerHub') {
-      steps {
-        container('docker') {
-          sh 'docker push dareyregistry/java-app:latest'
-      }
-    }
-     }
   }
-    post {
-      always {
-        container('docker') {
-          sh 'docker logout'
-      }
-      }
-    }
-}
