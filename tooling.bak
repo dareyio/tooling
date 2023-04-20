@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  tooling_frontend:
+    build: .
+    container_name: tooling
+    ports:
+      - "5000:80"
+    volumes:
+      - tooling_frontend:/var/www/html    
+    networks:
+      - tooling_app_network
+    links:
+      - db 
+  db:
+    image: mysql/mysql-server:latest
+    container_name: mysqlserverhost
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      # MYSQL_DATABASE: 'toolingdb'
+      # MYSQL_USER: ''
+      # MYSQL_PASSWORD: ''
+      # MYSQL_RANDOM_ROOT_PASSWORD: '1'
+
+      MYSQL_DATABASE: '${MYSQL_DBNAME}'
+      MYSQL_USER: '${MYSQL_USER}'
+      MYSQL_PASSWORD: '${MYSQL_PASS}'
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - tooling_app_network 
+volumes:
+  tooling_frontend:
+  db:
+networks:
+  tooling_app_network : {}
+  
