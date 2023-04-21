@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   tooling_frontend:
-    image: stlng/tooling-master:0.0.1
+    image: stlng/tooling-${env.BRANCH_NAME}:${env.BUILD_NUMBER}
     ports:
       - "5000:80"
     volumes:
