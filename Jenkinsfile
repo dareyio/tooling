@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage('Build image for php-todo-app') {
       steps {
-        sh 'docker build -t stlng/tooling-master:0.0.1 .'
+        sh 'docker build -t stlng/tooling-${env.BRANCH_NAME}:${env.BUILD_NUMBER} .'
       }
     }
 
@@ -33,14 +33,14 @@ pipeline {
     stage('Push docker image to docker hub registry') {
       when { expression { response.status == 200 } }
       steps {
-        sh 'docker push stlng/tooling-master:0.0.1'
+        sh 'docker push stlng/tooling-${env.BRANCH_NAME}:${env.BUILD_NUMBER}'
       }
     }
 
     stage('Cleaning up') {
       steps{
         sh 'docker compose -f tooling.yml down'
-        sh 'docker rmi tooling-master:0.0.1'
+        sh 'docker rmi tooling-${env.BRANCH_NAME}:${env.BUILD_NUMBER}'
       }
     } 
 
