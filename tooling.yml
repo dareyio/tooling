@@ -1,8 +1,7 @@
-
-version: "3.1"
+version: "3.9"
 services:
   tooling_frontend:
-    image: stlng/tooling-master:0.0.2
+    image: stlng/tooling-master:0.0.1
     ports:
       - "5000:80"
     volumes:
@@ -17,7 +16,6 @@ services:
       MYSQL_USER: '${MYSQL_USER}'
       MYSQL_PASSWORD: '${MYSQL_PASS}'
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
-
     volumes:
       - db:/var/lib/mysql
 volumes:
