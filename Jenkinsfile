@@ -8,7 +8,7 @@ pipeline {
   }
 
   stages {
-    stage('Build image for php-todo-app') {
+    stage('Build image for tooling-app') {
       steps {
         sh 'docker build -t stlng/tooling-${env.BRANCH_NAME}:${env.BUILD_NUMBER} .'
       }
